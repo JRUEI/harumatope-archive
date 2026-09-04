@@ -73,6 +73,7 @@ function validateEpisode(fileName) {
   let duplicateLines = 0;
   let backwardsTimestamps = 0;
   let hasHost = false;
+  let indexRows = 0;
 
   for (let index = transcriptHeading + 1; index < lines.length; index += 1) {
     const line = lines[index].trim();
@@ -105,6 +106,7 @@ function validateEpisode(fileName) {
       emptyTextLines += 1;
     }
     if (speaker === "福嶋晴菜") hasHost = true;
+    if (speaker === "段落") indexRows += 1;
     if (
       speaker.includes("？") ||
       (speaker.startsWith("福嶋晴菜") &&
@@ -121,7 +123,10 @@ function validateEpisode(fileName) {
   if (parsedLines === 0) {
     report(errors, relativePath, "完整逐字稿沒有任何可解析字幕");
   }
-  if (!hasHost) {
+  // 整段皆為 [段落] 時視為「時間索引」格式：這些列是段落描述而非台詞，
+  // 本來就不該掛主持人標籤，故不套用 hasHost 檢查。
+  const isIndexSection = parsedLines > 0 && indexRows === parsedLines;
+  if (!hasHost && !isIndexSection) {
     report(warnings, relativePath, "逐字稿找不到精確的主持人標籤 [福嶋晴菜]");
   }
   if (speakerlessLines) {
