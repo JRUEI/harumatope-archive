@@ -12,6 +12,9 @@
 
 # testing
 /coverage
+/scratch/
+/temp_subs/
+/HANDOFF.md
 
 # next.js
 /.next/
