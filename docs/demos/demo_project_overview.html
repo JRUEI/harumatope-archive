@@ -273,7 +273,7 @@
 
     <dl class="stats">
       <div class="stat"><dt>收錄回數</dt><dd>10 <small>回</small></dd></div>
-      <div class="stat"><dt>逐字稿列數</dt><dd>7,850 <small>列</small></dd></div>
+      <div class="stat"><dt>逐字稿列數</dt><dd>7,338 <small>列</small></dd></div>
       <div class="stat"><dt>還原段落</dt><dd>51 <small>張卡</small></dd></div>
       <div class="stat"><dt>來賓回</dt><dd>5 <small>／10</small></dd></div>
       <div class="stat"><dt>期間</dt><dd style="font-size:1.05rem">2026-04-11<br><small style="margin:0">→ 2026-08-22</small></dd></div>
@@ -329,7 +329,7 @@
       <div class="mode">
         <span class="tag">【完整逐字稿】</span>
         <h3>帶時間碼的全文</h3>
-        <p>每列附時間與說話者，可對照原影片。目前全站共 7,850 列。</p>
+        <p>每列附時間與說話者，可對照原影片。目前全站共 7,338 列。</p>
       </div>
     </div>
   </section>
@@ -370,11 +370,11 @@
           <tr><td class="mono">03</td><td class="mono">2026-05-09</td><td class="ep-title">感冒後的沙啞嗓音與 USJ 遠足回憶</td><td><span class="pill pill-solo">個人回</span></td><td class="num">6</td><td class="num">41</td></tr>
           <tr><td class="mono">04</td><td class="mono">2026-05-23</td><td class="ep-title">生日活動回顧與原創解謎挑戰</td><td><span class="pill pill-guest">真野美月</span></td><td class="num">6</td><td class="num">1,066</td></tr>
           <tr><td class="mono">05</td><td class="mono">2026-06-13</td><td class="ep-title">決定粉絲專屬稱呼「しおり」</td><td><span class="pill pill-solo">個人回</span></td><td class="num">4</td><td class="num">899</td></tr>
-          <tr><td class="mono">06</td><td class="mono">2026-06-27</td><td class="ep-title">問候語「こんまとぺ」誕生與我們的色彩哲學</td><td><span class="pill pill-guest">藤本侑里</span></td><td class="num">6</td><td class="num">907</td></tr>
+          <tr><td class="mono">06</td><td class="mono">2026-06-27</td><td class="ep-title">問候語「こんまとぺ」誕生與我們的色彩哲學</td><td><span class="pill pill-guest">藤本侑里</span></td><td class="num">6</td><td class="num">910</td></tr>
           <tr><td class="mono">07</td><td class="mono">2026-07-11</td><td class="ep-title">一人廣播的拉麵之日與青春裁判！</td><td><span class="pill pill-solo">個人回</span></td><td class="num">4</td><td class="num">124</td></tr>
-          <tr><td class="mono">08</td><td class="mono">2026-07-25</td><td class="ep-title">夏日素麵與謎題破解！</td><td><span class="pill pill-guest">根本優奈</span></td><td class="num">4</td><td class="num">1,456</td></tr>
+          <tr><td class="mono">08</td><td class="mono">2026-07-25</td><td class="ep-title">夏日素麵與謎題破解！</td><td><span class="pill pill-guest">根本優奈</span></td><td class="num">4</td><td class="num">940</td></tr>
           <tr><td class="mono">09</td><td class="mono">2026-08-08</td><td class="ep-title">夏日防暑與購物心得！朗讀劇幕後花絮分享</td><td><span class="pill pill-solo">個人回</span></td><td class="num">6</td><td class="num">832</td></tr>
-          <tr><td class="mono">10</td><td class="mono">2026-08-22</td><td class="ep-title">嘉賓佐藤榛夏登場！回顧深厚友誼與生日驚喜</td><td><span class="pill pill-guest">佐藤榛夏</span></td><td class="num">5</td><td class="num">1,093</td></tr>
+          <tr><td class="mono">10</td><td class="mono">2026-08-22</td><td class="ep-title">嘉賓佐藤榛夏登場！回顧深厚友誼與生日驚喜</td><td><span class="pill pill-guest">佐藤榛夏</span></td><td class="num">5</td><td class="num">1,094</td></tr>
         </tbody>
       </table>
     </div>
@@ -395,7 +395,7 @@
           <tr><td class="mono">src/lib/markdown.ts</td><td>唯一的內容解析器，標記 <code>server-only</code></td></tr>
           <tr><td class="mono">src/components/EpisodeViewer.tsx</td><td>閱讀模式切換的中樞</td></tr>
           <tr><td class="mono">src/components/CardMode.tsx</td><td>656 行，圖卡排版與匯出</td></tr>
-          <tr><td class="mono">content/glossary.json</td><td>37 條全域替換規則（已還原）＋ ep02 專屬覆寫（<strong style="color:var(--gold)">13 條待人工重建</strong>）</td></tr>
+          <tr><td class="mono">content/glossary.json</td><td>37 條全域替換規則（已還原）＋ ep02 專屬覆寫 10 條（5 條還原、5 條依來源新建）</td></tr>
           <tr><td class="mono">docs/demos/*.html</td><td>30 份 UI 提案與前後比對 demo，已排除在部署外</td></tr>
           <tr><td class="mono">scripts/legacy/</td><td>9 支高風險的舊字幕／改寫腳本，封存不刪</td></tr>
         </tbody>
@@ -459,80 +459,84 @@
 
   <section>
     <p class="cue">目前狀態</p>
-    <h2>修復後複測（2026-09-04 10:25）</h2>
+    <h2>修復後複測（2026-09-04 20:15）</h2>
 
     <div class="banner banner-ok">
       <span class="dot"></span>
       <div>
-        <h3>build 通過了：0 error / 10 warning</h3>
-        <p><code>npm run validate:content</code> exit code 0，<code>npm run build</code> 完整跑完並產出 14 個靜態頁面。
-        剩下的 10 條全是 warning，不再擋建置。</p>
+        <h3>0 error / 7 warning，且已進版控</h3>
+        <p><code>npm run validate:content</code> exit code 0，<code>npm run build</code> 產出 14 個靜態頁面。
+        94 個檔案、86,334 行已提交到 <code>content/wiki-buildout-and-repairs</code> 分支——
+        在此之前只有 Create Next App 的初始 commit 被追蹤，這正是詞語庫毀損時無版本可還原的原因。</p>
       </div>
     </div>
 
+    <p class="lede">已修復的項目：</p>
     <ul class="issues">
       <li><span class="pill pill-ok">已修</span><span class="where">glossary.json</span><span class="what">
-        編碼毀損已還原。移除 UTF-8 BOM、以明確 utf8 重寫，<code>global</code> 的 37 條規則全部回來了。
-        <code>episodes."2"</code> 暫時留空——那 13 條的假名在 CP950 轉換中被換成 <code>?</code>，是<strong>永久遺失</strong>，不能靠猜。
+        CP950 來回轉換造成的編碼毀損已還原（BOM、私用區字元、假名被換成 <code>?</code>）。
+        <code>global</code> 37 條全數復原；<code>episodes."2"</code> 重建 10 條——5 條由殘骸字形與來源雙向對上，
+        5 條依 <code>ep02.ja.vtt</code> 的實際誤聽新建。無證據的 3 條沒有補，不猜。
       </span></li>
-      <li><span class="pill pill-ok">已修</span><span class="where">ep05</span><span class="what">
-        899 列的說話者標籤 <code>[福嶋晴菜春奈]</code> 全部改回 <code>[福嶋晴菜]</code>。
+      <li><span class="pill pill-ok">已修</span><span class="where">ep08</span><span class="what">
+        移除 516 列<strong>連時間碼都完全相同</strong>的重複列。去重後時間倒退次數由 3 次歸零，
+        不需要 <code>ep08.ja.vtt</code> 就能確認結果自我一致。
       </span></li>
-      <li><span class="pill pill-ok">已修</span><span class="where">ep10</span><span class="what">
-        109 列寫成 <code>[時間] 名字： 內容</code> 的舊格式，轉成專案標準的 <code>[時間] [名字] 內容</code>。
-        這些列從「解析不到、網站不顯示」變成正常渲染——全站逐字稿因此從 7,741 列增加到 <strong>7,850 列</strong>。
+      <li><span class="pill pill-ok">已修</span><span class="where">ep02 · 7 集共 24 處</span><span class="what">
+        <code>fix_glossary.js</code> 反覆執行造成的 append 損傷。<code>(haraitai)</code> 被接了 8 次；
+        <code>『X』</code> 這類自我引用規則把書名號疊到 9 層深（<code>『『『『『『『『『ミステリーハルストーリー』』』』』』』』』</code>）。
+        驗證器不檢查這兩種，但網站上看得見。
       </span></li>
-      <li><span class="pill pill-ok">已修</span><span class="where">ep09 / ep10</span><span class="what">
-        清掉多餘的 frontmatter <code>id:</code> 與重複的 <code>#</code> 標題，格式與其他八集一致。
-      </span></li>
-      <li><span class="pill pill-ok">已修</span><span class="where">fix_glossary.js</span><span class="what">
-        這支會直接改寫 <code>content/episodes/*.md</code> 的腳本，已從 <code>scratch/</code> 移進
-        <code>scripts/legacy/</code> 封存，不再被誤觸。
+      <li><span class="pill pill-ok">已修</span><span class="where">ep05 / ep10 / ep06</span><span class="what">
+        ep05 統一 899 列的說話者標籤；ep10 把 110 列的 <code>名字：內容</code> 舊格式轉成 <code>[名字] 內容</code>
+        並清掉 10 個分段拼接殘留的 U+FEFF；ep06 的 3 列音效補上標籤，沿用專案既有的 <code>[音樂]</code> 慣例。
       </span></li>
     </ul>
 
     <p class="lede" style="margin-top:36px">
-      以下 warning 需要對照原始影片或字幕才能判斷，屬於內容工作、不是機械修正，所以這一輪沒有動：
+      剩下的 7 條 warning 分三類，卡住的原因各不相同：
     </p>
 
     <ul class="issues">
-      <li><span class="pill pill-warn">warning</span><span class="where">ep08</span><span class="what">
-        516 列逐字稿完全重複，另有 3 次時間倒退。這回<strong>沒有 <code>ep08.ja.vtt</code></strong>，
-        要先把 YouTube 字幕重新抓回來才有對照基準（是下載，不是重跑語音辨識）。
+      <li><span class="pill pill-warn">待你決定</span><span class="where">ep01/05/06/08/09</span><span class="what">
+        <strong>5 條 warning、共 23 列「空殼列」。</strong>我原本判斷是漏翻，用精確區間（本列時間碼 → 下一列時間碼）
+        重查後結論相反：日文字幕在句子中間斷行，翻譯時把碎片併進了完整句子，於是這些列就空了。
+        例如 ep09 <code>[15:56]</code> 的日文只有 <code>ありまして、</code>，而前一列中文「但第二部作品叫做《Botorigesu》，」已經涵蓋。
+        <strong>內容沒有遺失</strong>，所以正解不是翻譯，是刪掉空殼列或維持現狀——這是你的取捨，我沒有動。
       </span></li>
-      <li><span class="pill pill-warn">warning</span><span class="where">ep03</span><span class="what">
-        逐字稿只有 41 列、停在 <code>[19:51]</code>，但來源 <code>ep03.ja.vtt</code> 一路到 <code>00:41:10</code>——
-        後半段是還沒翻，不是節目就這麼短。
+      <li><span class="pill pill-err">需要音檔</span><span class="where">ep04</span><span class="what">
+        4 列標成可疑的說話者「工作人員？」。查過 <code>ep04.ja.vtt</code>，YouTube 自動字幕<strong>完全沒有說話者標記</strong>——
+        <code>00:38:12</code> 只有「狐が結構大事ですか?」「はい。」，誰講的沒有任何文字線索。
+        這是唯一真的只能聽原音才能定案的一項。
       </span></li>
-      <li><span class="pill pill-warn">warning</span><span class="where">ep01 / 05 / 08 / 09</span><span class="what">
-        共 30 列只有說話者或音效標籤、沒有實際文字（5 ＋ 1 ＋ 16 ＋ 8）。要聽原音才知道那裡究竟有沒有台詞。
+      <li><span class="pill pill-solo">無需處理</span><span class="where">glossary.json</span><span class="what">
+        18 條規則的左右兩邊相同（例如 <code>ふくみん → ふくみん</code>），dry-run 會直接略過。
+        這是原本就有的設計，當作「確認過、不要再改」的白名單，留著無害。
       </span></li>
-      <li><span class="pill pill-warn">warning</span><span class="where">ep06 / ep10</span><span class="what">
-        3 列與 1 列沒有說話者標籤（多是音效提示），網站目前不顯示這幾列。
-      </span></li>
-      <li><span class="pill pill-warn">warning</span><span class="where">ep04</span><span class="what">
-        4 列用了可疑的說話者「工作人員？」——問號本身就是當初標註者的不確定，要聽原音才能定案。
-      </span></li>
-      <li><span class="pill pill-warn">warning</span><span class="where">glossary.json</span><span class="what">
-        16 條規則的左右兩邊相同（例如 <code>ふくみん → ふくみん</code>），不會改變任何文字，dry-run 會直接略過。
-        這是原本就有的設計——當作「確認過、不要再改」的白名單，留著無害。
-      </span></li>
-      <li><span class="pill pill-warn">warning</span><span class="where">git</span><span class="what">
-        除了初始 commit 之外全未提交：<code>content/</code>、<code>src/components/</code>、<code>src/lib/</code>、<code>scripts/</code> 都還是 untracked。
-        依 <code>AGENTS.md</code>，commit 屬於要你批准的終端機指令，所以沒有代為執行。
+    </ul>
+
+    <p class="lede" style="margin-top:36px">
+      另外還有一項不算 warning、但確實缺內容：
+    </p>
+    <ul class="issues">
+      <li><span class="pill pill-warn">試譯待確認</span><span class="where">ep03</span><span class="what">
+        逐字稿只有 41 列、停在 <code>[19:51]</code> 的解謎題目中間，但來源 <code>ep03.ja.vtt</code> 一路到 <code>00:41:10</code>。
+        未翻的部分是 303 行日文、5,342 字，預估會變成 300–400 列中文。
+        這是日翻中、不是語音辨識，做得到——試譯已交出，等語氣確認。
       </span></li>
     </ul>
 
     <p class="note">
-      修改前的原始檔都留了備份（<code>ep05</code>、<code>ep09</code>、<code>ep10</code>、<code>glossary.json</code>）。
-      ep02 那 13 條毀損規則的殘骸另外記在 <code>docs/glossary-ep02-recovery.txt</code>，
-      裡面的 <code>(haraitai)</code> 因為是 ASCII 而倖存，可以拿去 <code>ep02.md</code> 裡定位最後兩條的原文。
+      每一輪修改前的原始檔都留了備份。ep02 毀損規則的殘骸記在 <code>docs/glossary-ep02-recovery.txt</code>。
+      <code>fix_glossary.js</code> 已從 <code>scratch/</code> 移進 <code>scripts/legacy/</code> 封存——
+      它會直接改寫 <code>content/episodes/*.md</code>，與專案「工具只做 dry-run」的原則相衝突，
+      上面那兩類 append 損傷都是它反覆執行造成的。
     </p>
   </section>
 
   <footer>
     <span>harumatope-wiki · Next.js 16 · 靜態站</span>
-    <span>資料實測於 2026-09-04 10:25</span>
+    <span>資料實測於 2026-09-04 20:15</span>
   </footer>
 
 </div>
