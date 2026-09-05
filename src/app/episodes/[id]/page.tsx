@@ -2,8 +2,6 @@ import { getEpisodeData, getAllEpisodeIds } from '@/lib/markdown';
 import EpisodeViewer from '@/components/EpisodeViewer';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 
 export const dynamicParams = false;
 
@@ -36,15 +34,6 @@ export default async function EpisodePage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-4xl mx-auto pt-6 px-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-brand-purple dark:hover:text-brand-purple transition-colors mb-2"
-        >
-          <ArrowLeft size={16} />
-          返回節目列表
-        </Link>
-      </div>
       <EpisodeViewer episode={episode} />
     </div>
   );

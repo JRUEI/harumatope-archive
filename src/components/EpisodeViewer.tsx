@@ -68,7 +68,7 @@ export default function EpisodeViewer({ episode }: { episode: EpisodeData }) {
   };
 
   return (
-    <div className="mx-auto py-10 px-4 transition-all duration-300 max-w-4xl">
+    <div className="mx-auto pt-3 sm:pt-4 pb-10 px-4 transition-all duration-300 max-w-4xl">
       {/* Header */}
       <header className="mb-6 flex flex-col items-center w-full">
         <div className="flex flex-wrap justify-center gap-3 mb-5">
