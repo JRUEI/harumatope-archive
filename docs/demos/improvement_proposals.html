@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harumatope & Jurii Wiki 未來可改善項目提案</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Custom scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(120, 120, 120, 0.2);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(120, 120, 120, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-[var(--background,#09090b)] text-[var(--foreground,#fafafa)] antialiased min-h-screen p-4 sm:p-6 md:p-8 font-sans selection:bg-emerald-500/30 selection:text-emerald-300">
+  <div class="max-w-5xl mx-auto space-y-6">
+
+    <!-- Header Banner -->
+    <header class="bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+      <div class="absolute -top-16 -right-16 w-56 h-56 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 relative z-10">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium mb-3">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            系統架構與功能迭代評估
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--foreground,#fafafa)]">
+            現階段可改善與深化項目分析
+          </h1>
+          <p class="text-[var(--muted-foreground,#a1a1aa)] text-sm sm:text-base mt-2 max-w-2xl leading-relaxed">
+            針對目前已完成之 10 回全字幕時間戳對齊、詞庫標準化（こんまとぺ 演變脈絡）與無框雙模式播放介面，整理出 6 大維度的後續優化提案與實作藍圖。
+          </p>
+        </div>
+        <div class="flex sm:flex-col items-center sm:items-end gap-2 text-xs font-mono text-[var(--muted-foreground,#71717a)] shrink-0">
+          <span class="px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)]">
+            10 Episodes · 5,880 Lines
+          </span>
+          <span class="text-emerald-400 font-semibold">Ready for Next Milestone</span>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-[var(--border,#27272a)]">
+        <div class="bg-[var(--background,#09090b)]/50 border border-[var(--border,#27272a)]/60 rounded-xl p-3">
+          <div class="text-[var(--muted-foreground,#a1a1aa)] text-xs">建議優先級 P1</div>
+          <div class="text-lg font-bold text-emerald-400 mt-0.5">3 項</div>
+          <div class="text-[11px] text-[var(--muted-foreground,#71717a)]">全站跨集搜尋 & 快捷鍵</div>
+        </div>
+        <div class="bg-[var(--background,#09090b)]/50 border border-[var(--border,#27272a)]/60 rounded-xl p-3">
+          <div class="text-[var(--muted-foreground,#a1a1aa)] text-xs">建議優先級 P2</div>
+          <div class="text-lg font-bold text-amber-400 mt-0.5">3 項</div>
+          <div class="text-[11px] text-[var(--muted-foreground,#71717a)]">詞條 Tooltip & 滾動鎖定</div>
+        </div>
+        <div class="bg-[var(--background,#09090b)]/50 border border-[var(--border,#27272a)]/60 rounded-xl p-3">
+          <div class="text-[var(--muted-foreground,#a1a1aa)] text-xs">長期擴展 P3</div>
+          <div class="text-lg font-bold text-sky-400 mt-0.5">2 項</div>
+          <div class="text-[11px] text-[var(--muted-foreground,#71717a)]">筆記圖庫 & 自動化管線</div>
+        </div>
+        <div class="bg-[var(--background,#09090b)]/50 border border-[var(--border,#27272a)]/60 rounded-xl p-3">
+          <div class="text-[var(--muted-foreground,#a1a1aa)] text-xs">影響範疇</div>
+          <div class="text-lg font-bold text-indigo-400 mt-0.5">Wiki / Stream</div>
+          <div class="text-[11px] text-[var(--muted-foreground,#71717a)]">兩大站點全面適用</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filter & Category Tabs -->
+    <div class="flex flex-wrap items-center gap-2 pb-1" id="filter-container">
+      <button onclick="filterCategory('all')" class="filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-emerald-500 text-zinc-950 font-semibold" data-cat="all">
+        全部項目 (8)
+      </button>
+      <button onclick="filterCategory('search')" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] text-[var(--muted-foreground,#a1a1aa)] hover:text-[var(--foreground,#fafafa)]" data-cat="search">
+        🔍 全站搜尋與知識庫
+      </button>
+      <button onclick="filterCategory('player')" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] text-[var(--muted-foreground,#a1a1aa)] hover:text-[var(--foreground,#fafafa)]" data-cat="player">
+        ⏯ 播放互動與體驗
+      </button>
+      <button onclick="filterCategory('transcript')" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] text-[var(--muted-foreground,#a1a1aa)] hover:text-[var(--foreground,#fafafa)]" data-cat="transcript">
+        🎯 逐字稿與音訊對齊
+      </button>
+      <button onclick="filterCategory('pipeline')" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] text-[var(--muted-foreground,#a1a1aa)] hover:text-[var(--foreground,#fafafa)]" data-cat="pipeline">
+        ⚙️ 自動化工作流
+      </button>
+      <button onclick="filterCategory('gallery')" class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] text-[var(--muted-foreground,#a1a1aa)] hover:text-[var(--foreground,#fafafa)]" data-cat="gallery">
+        📖 圖文展示與內容延伸
+      </button>
+    </div>
+
+    <!-- Main Proposals List -->
+    <div class="space-y-4" id="proposals-list">
+
+      <!-- Item 1: 全站跨集全文搜尋 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="search">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">P1 · 極高收益</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">搜尋與知識庫</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">Cross-Episode Search</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              1. 全站跨集關鍵字搜尋（Cross-Episode Global Search）
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 2~3 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              目前每一集雖有單集逐字稿搜尋，但若粉絲想回查「哪一集聊過雞白湯？」、「哪一集提到USJ遠足？」、「某位聽眾的來信是在哪一回」，必須逐集點開手動搜尋，體驗斷裂。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              在靜態導覽列加入 <kbd class="px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-[10px] font-mono">Cmd + K</kbd> 搜尋彈窗。利用 build 階段生成的輕量靜態 JSON 索引，支援即時跨集模糊比對，點擊直接跳轉至該集並精確 seek 到該秒數。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2: 播放鍵盤快捷鍵 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="player">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">P1 · 高實用度</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">播放互動</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">Hotkeys & Player Controls</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              2. 影音播放快捷鍵與自訂倍速控制
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 1~2 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              目前只能依靠滑鼠點擊字幕跳轉或點擊 YouTube 播放器本體，無法邊看邊用鍵盤快進快退或暫停；缺乏倍速播放快捷切換（0.75x、1.25x、1.5x）。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              加入全域快捷鍵監聽（按 <kbd class="px-1 py-0.5 rounded bg-zinc-800 text-[10px]">Space</kbd> 播放/暫停、<kbd class="px-1 py-0.5 rounded bg-zinc-800 text-[10px]">←</kbd>/<kbd class="px-1 py-0.5 rounded bg-zinc-800 text-[10px]">→</kbd> 倒退/快進 5 秒、<kbd class="px-1 py-0.5 rounded bg-zinc-800 text-[10px]">J</kbd>/<kbd class="px-1 py-0.5 rounded bg-zinc-800 text-[10px]">K</kbd> 上一句/下一句台詞），並在控制欄提供極簡倍速標籤。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3: 手動瀏覽時的滾動鎖定與自動跟隨保護 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="player">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">P2 · 細節體驗</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">播放互動</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">Smart Auto-Scroll Lock</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              3. 抽屜手動閱讀時的「智慧滾動暫停與一鍵重回當前」
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 1.5 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              當使用者打開「完整逐字對話紀錄」向上滾動回看 5 分鐘前的信件內容時，若影片正在播放，每過幾秒時間軸跳動就會自動把視野強制滾回播放位置，打斷閱讀。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              加入「使用者手動滾動檢測（User Scroll Intent）」。當使用者手動滑動離開當前播放句時，暫時解除自動置中，並在抽屜右下角浮現「⤓ 重回播放位置」的小按鈕，既不打擾閱讀又隨時可接回進度。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4: 詞庫關鍵字互動 Tooltip / 專有名詞懸浮註解 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="search">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">P2 · 知識庫價值</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">知識庫連結</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">Interactive Glossary Tooltips</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              4. 專有名詞與由來「懸浮小字典（Glossary Tooltip & Popover）」
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 2 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              剛入坑的新粉看到「しおり」、「こんまとぺ」、「ハルマトペ研究所」、「青春裁判所」時，若只看最新一回，常不明白這些名詞的由來或前因後果。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              將我們剛建檔的 `docs/GLOSSARY.md` 與 `glossary.json` 與頁面連結。當逐字稿或總結出現重點詞彙時，帶有淡虛線底線，滑鼠懸浮或點擊即顯示由來卡片（例如「こんまとぺ：こんばんわ＋はるまとぺーじ，EP05由小晴拍板定案」）。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 5: 時間軸偏移校正與多說話者精準標註 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="transcript">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/15 text-amber-400 border border-amber-500/30">P2 · 精準度升級</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">逐字稿精準度</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">Timestamp Offset Calibration</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              5. 廣播單集時間軸全域 Offset 校正工具
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 2 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              目前我們使用「滑動窗口對齊第二句」來抵銷 YouTube 自動字幕約 1.5~2.5 秒的反應延遲；雖然在閱讀流體驗良好，但個別集數若片頭剪輯長度不同，時間差可能有些微浮動。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              在 frontmatter 中允許配置 `offset: -1.2`（秒），前端在解析時自動微調 timecode；同時提供一個輕量管理頁面，播放時按快速鍵即可微調對齊 offset 並儲存。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 6: 一鍵式新回數處理自動化管線 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="pipeline">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">P1 · 生產力解放</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">自動化流水線</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">One-click Episode Pipeline</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              6. 新集數發布自動化管線（One-Click Pipeline CLI）
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 2.5 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              過去處理 EP01~EP10 時，涉及下載 VTT、跑 Python 清洗、斷句分割、詞庫替換、翻譯產出、無損還原大綱編寫、內容檢驗等多個腳本手動串接，容易因單一步驟遺漏而出錯。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              封裝出標準指令 `npm run ingest -- --ep 11 --url <YouTube_URL>`。整合字元級字尾重組、詞庫自動對齊、總結結構化生成與 `validate-content` 自動過審，大幅提升未來維護效率。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 7: 筆記本『はるまとぺノート』與來賓相簿專區 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="gallery">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-sky-500/15 text-sky-400 border border-sky-500/30">P3 · 內容收藏</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">粉絲向展覽</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">Notebook Gallery</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              7. 實體筆記『はるまとぺノート』圖庫與來賓塗鴉牆
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 2 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              每回廣播都強調「與大家一起創造一頁一頁的故事」，晴菜與來賓（りおな、真野、侑里、根本、佐藤）都在筆記本上留下了手繪插圖與留言，但目前網站僅有文字記錄。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              建立獨立專頁 `/notebook`，模擬「翻開實體書頁」的視覺風格，收集官方推特與 FANBOX 公開的筆記塗鴉與貼紙照片，點擊可對應跳至當集錄音片段。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 8: 移動端直式版面與 Sticky 播放體驗優化 -->
+      <div class="proposal-card bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-5 sm:p-6 transition-all hover:border-zinc-700/60 shadow-sm" data-category="player">
+        <div class="flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-sky-500/15 text-sky-400 border border-sky-500/30">P3 · 響應式細化</span>
+              <span class="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-800 text-zinc-300">行動端體驗</span>
+              <span class="text-xs text-[var(--muted-foreground,#71717a)] font-mono">Mobile Sticky Layout</span>
+            </div>
+            <h3 class="text-lg font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+              8. 行動裝置直式螢幕「迷你懸浮播放器」與手勢支援
+            </h3>
+          </div>
+          <span class="text-xs font-mono px-2.5 py-1 rounded bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] text-zinc-400 shrink-0">
+            預估工時: 1.5 hr
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-[var(--border,#27272a)] text-sm">
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-amber-400">⚠️</span> 現狀痛點
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              在手機直向螢幕上，上方 16:9 影片佔據了約 40% 高度，下方字幕流可見區域僅剩 2~3 句，手指滑動時容易誤觸影片控制列。
+            </p>
+          </div>
+          <div class="bg-[var(--background,#09090b)]/40 rounded-xl p-3.5 border border-[var(--border,#27272a)]/50">
+            <div class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5 mb-1.5">
+              <span class="text-emerald-400">💡</span> 改善方案
+            </div>
+            <p class="text-[var(--muted-foreground,#a1a1aa)] text-xs sm:text-sm leading-relaxed">
+              支援行動端下滑時將影片收合成頂部/底部的 Mini-Player 浮條，將主要空間釋放給 4 句滑動台詞流，提升在公車或捷運上用手機閱讀時的舒適度。
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Recommended Next Action Roadmap -->
+    <div class="bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] rounded-2xl p-6 sm:p-8 space-y-4">
+      <h2 class="text-xl font-bold text-[var(--foreground,#fafafa)] flex items-center gap-2">
+        <span class="p-1 rounded bg-emerald-500/20 text-emerald-400">🚀</span>
+        推薦優先實作路徑（Recommended Roadmap）
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm pt-2">
+        <div class="p-4 rounded-xl bg-[var(--background,#09090b)] border border-emerald-500/30 relative">
+          <div class="text-xs font-bold text-emerald-400 mb-1">第一階段（立即可做）</div>
+          <div class="font-semibold text-[var(--foreground,#fafafa)]">全站跨集檢索 + 播放快捷鍵</div>
+          <p class="text-xs text-[var(--muted-foreground,#a1a1aa)] mt-1.5 leading-relaxed">
+            性價比極高，讓累積的 5,880 行精校字幕真正具備「即搜即聽」的知識庫實用價值。
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] relative">
+          <div class="text-xs font-bold text-amber-400 mb-1">第二階段（閱讀深化）</div>
+          <div class="font-semibold text-[var(--foreground,#fafafa)]">詞庫 Tooltip + 滾動鎖定</div>
+          <p class="text-xs text-[var(--muted-foreground,#a1a1aa)] mt-1.5 leading-relaxed">
+            把建好檔的招呼語歷史（こんまとぺ演變）與梗直接融入頁面互動，提升閱讀沉浸感。
+          </p>
+        </div>
+        <div class="p-4 rounded-xl bg-[var(--background,#09090b)] border border-[var(--border,#27272a)] relative">
+          <div class="text-xs font-bold text-sky-400 mb-1">第三階段（擴展與展示）</div>
+          <div class="font-semibold text-[var(--foreground,#fafafa)]">手繪筆記牆 + 新回管線</div>
+          <p class="text-xs text-[var(--muted-foreground,#a1a1aa)] mt-1.5 leading-relaxed">
+            將 EP11 以後的發布流程完全自動化，並補齊視覺圖文展覽內容。
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function filterCategory(cat) {
+      // Update buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.cat === cat) {
+          btn.className = 'filter-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-emerald-500 text-zinc-950';
+        } else {
+          btn.className = 'filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all bg-[var(--card,#18181b)] border border-[var(--border,#27272a)] text-[var(--muted-foreground,#a1a1aa)] hover:text-[var(--foreground,#fafafa)]';
+        }
+      });
+
+      // Filter cards
+      const cards = document.querySelectorAll('.proposal-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.dataset.category === cat) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

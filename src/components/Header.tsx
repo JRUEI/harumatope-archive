@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { Settings, PlayCircle } from 'lucide-react';
+import { XIcon } from './BrandIcons';
 import { useEffect, useState, useRef } from 'react';
 import { useFocusMode } from './FocusModeProvider';
 import { useHomeLayout } from './HomeLayoutProvider';
@@ -51,9 +52,20 @@ export default function Header() {
             target="_blank" 
             rel="noopener noreferrer"
             className="h-10 inline-flex items-center justify-center gap-1.5 px-3 md:px-5 bg-red-100 text-red-800 dark:bg-red-500/30 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-500/40 rounded-full font-bold transition-all shadow-sm hover:shadow-md hover:shadow-red-500/10 hover:-translate-y-0.5"
+            title="YouTube 播放清單"
           >
             <PlayCircle size={16} className="shrink-0" />
             <span className="tracking-wide hidden sm:inline">影片清單</span>
+          </a>
+          <a
+            href="https://x.com/voradi_official"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-10 h-10 shrink-0 inline-flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
+            title="官方 X (@voradi_official)"
+            aria-label="官方 X (@voradi_official)"
+          >
+            <XIcon size={16} />
           </a>
           {mounted && (
             <div className="relative" ref={dropdownRef}>
