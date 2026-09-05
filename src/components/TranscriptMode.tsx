@@ -387,27 +387,17 @@ export default function TranscriptMode({ episode }: { episode: EpisodeData }) {
             <div className="divide-y divide-zinc-100 dark:divide-zinc-800/80 flex flex-col">
               {currentGroupLines.map((line) => {
                 const isHost = line.speaker === '福嶋晴菜';
-                const isCurrent = line.index === activeIndex;
-                const isPast = line.index < activeIndex;
 
                 return (
                   <div
                     key={line.index}
                     onClick={() => seekTo(line.seconds, line.index)}
-                    className={`group py-2.5 sm:py-3 px-2.5 sm:px-3.5 flex items-start gap-3 sm:gap-4 rounded-xl cursor-pointer transition-all duration-200 ${
-                      isCurrent
-                        ? 'bg-emerald-500/10 dark:bg-emerald-500/15 border-l-4 border-emerald-500 shadow-sm'
-                        : 'hover:bg-zinc-100/60 dark:hover:bg-zinc-800/40 border-l-4 border-transparent'
-                    }`}
+                    className="group py-2.5 sm:py-3 px-2 sm:px-3 flex items-start gap-3 sm:gap-4 rounded-xl cursor-pointer hover:bg-zinc-100/60 dark:hover:bg-zinc-800/40 transition-all duration-200"
                   >
                     {/* 時間戳播放按鈕 */}
                     <div className="shrink-0 pt-0.5">
                       <span
-                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-mono text-xs font-semibold transition-all shadow-sm ${
-                          isCurrent
-                            ? 'bg-emerald-500 text-zinc-950 font-bold shadow-md'
-                            : 'bg-zinc-100 dark:bg-zinc-800/90 text-zinc-600 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-700/60 group-hover:bg-emerald-500 group-hover:text-zinc-950 group-hover:border-emerald-400'
-                        }`}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-mono text-xs font-semibold bg-zinc-100 dark:bg-zinc-800/90 text-zinc-600 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-700/60 group-hover:bg-emerald-500 group-hover:text-zinc-950 group-hover:border-emerald-400 transition-all shadow-sm"
                         title="點擊跳轉影片至此秒數"
                       >
                         <Play size={10} className="fill-current" />
@@ -427,21 +417,8 @@ export default function TranscriptMode({ episode }: { episode: EpisodeData }) {
                         >
                           {line.speaker}
                         </span>
-                        {isCurrent && (
-                          <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100/80 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded">
-                            播放中
-                          </span>
-                        )}
                       </div>
-                      <p
-                        className={`text-sm sm:text-base leading-relaxed m-0 transition-colors ${
-                          isCurrent
-                            ? 'text-zinc-950 dark:text-white font-bold'
-                            : isPast
-                              ? 'text-zinc-500 dark:text-zinc-400 font-normal'
-                              : 'text-zinc-800 dark:text-zinc-200 font-medium'
-                        }`}
-                      >
+                      <p className="text-sm sm:text-base leading-relaxed m-0 text-zinc-900 dark:text-zinc-100 font-medium">
                         {line.text}
                       </p>
                     </div>
@@ -645,8 +622,7 @@ export default function TranscriptMode({ episode }: { episode: EpisodeData }) {
             const isHost = line.speaker === '福嶋晴菜';
             const offset = groupSize >= 2 ? 1 : 0;
             const startGroupIdx = Math.max(0, activeIndex - offset);
-            const isInGroup = activeIndex >= 0 && (line.index >= startGroupIdx && line.index < startGroupIdx + groupSize);
-            const isExactCurrent = line.index === activeIndex;
+            const isActive = activeIndex >= 0 && (line.index >= startGroupIdx && line.index < startGroupIdx + groupSize);
 
             return (
               <div
@@ -656,22 +632,18 @@ export default function TranscriptMode({ episode }: { episode: EpisodeData }) {
                 }}
                 onClick={() => seekTo(line.seconds, line.index)}
                 className={`group flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-2xl cursor-pointer transition-all duration-200 border ${
-                  isExactCurrent
-                    ? 'border-emerald-500 dark:border-emerald-400 bg-emerald-50 dark:bg-emerald-500/15 shadow-[0_0_16px_rgba(52,211,153,0.16)]'
-                    : isInGroup
-                      ? 'border-emerald-200/70 dark:border-emerald-800/50 bg-emerald-50/40 dark:bg-emerald-950/20'
-                      : 'border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                  isActive
+                    ? 'border-emerald-500 dark:border-emerald-400 bg-emerald-50/90 dark:bg-emerald-500/10 shadow-[0_0_16px_rgba(52,211,153,0.12)]'
+                    : 'border-transparent hover:border-zinc-200 dark:hover:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
                 }`}
               >
                 {/* 時間戳播放按鈕 */}
                 <div className="shrink-0 pt-0.5">
                   <span
                     className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-mono text-xs font-bold transition-all ${
-                      isExactCurrent
+                      isActive
                         ? 'bg-emerald-500 text-white dark:bg-emerald-400 dark:text-zinc-950 shadow-md'
-                        : isInGroup
-                          ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
-                          : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-400 dark:group-hover:text-zinc-950'
+                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 group-hover:bg-emerald-500 group-hover:text-white dark:group-hover:bg-emerald-400 dark:group-hover:text-zinc-950'
                     }`}
                     title="點擊跳轉影片至此秒數"
                   >
@@ -692,18 +664,11 @@ export default function TranscriptMode({ episode }: { episode: EpisodeData }) {
                     >
                       {line.speaker}
                     </span>
-                    {isExactCurrent && (
-                      <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100/80 dark:bg-emerald-950/60 px-1.5 py-0.2 rounded">
-                        播放中
-                      </span>
-                    )}
                   </div>
                   <p className={`text-sm sm:text-base leading-relaxed m-0 transition-colors ${
-                    isExactCurrent
-                      ? 'text-zinc-950 dark:text-zinc-50 font-bold'
-                      : isInGroup
-                        ? 'text-zinc-800 dark:text-zinc-200 font-medium'
-                        : 'text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100'
+                    isActive
+                      ? 'text-zinc-950 dark:text-zinc-50 font-medium'
+                      : 'text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-100'
                   }`}>
                     {searchKeyword ? (
                       highlightText(line.text, searchKeyword)
