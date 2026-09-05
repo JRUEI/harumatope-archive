@@ -1,8 +1,6 @@
-# はるまとぺーじ 檔案庫 (Harumatope Archive)
+# [はるまとぺーじ 檔案庫 (Harumatope Archive)](<https://jruei.github.io/harumatope-archive/](https://jruei.github.io/harumatope-archive/>)
 
 > **福嶋晴菜の『はるまとぺーじ』非公式節目內容檔案庫**
-
-🌐 **線上網站**：[https://jruei.github.io/harumatope-archive/](https://jruei.github.io/harumatope-archive/)
 
 ---
 
