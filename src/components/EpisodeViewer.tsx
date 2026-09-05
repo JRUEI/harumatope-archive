@@ -68,10 +68,10 @@ export default function EpisodeViewer({ episode }: { episode: EpisodeData }) {
   };
 
   return (
-    <div className="mx-auto pt-6 pb-10 px-4 transition-all duration-300 max-w-4xl">
+    <div className="mx-auto pt-4 sm:pt-5 pb-10 px-4 transition-all duration-300 max-w-4xl">
       {/* Header */}
-      <header className="mb-6 flex flex-col items-center w-full">
-        <div className="flex flex-wrap justify-center gap-3 mb-2.5 sm:mb-3">
+      <header className="mb-5 sm:mb-6 flex flex-col items-center w-full">
+        <div className="flex flex-wrap justify-center gap-3 mb-3.5 sm:mb-4">
           <span className="px-6 py-2 bg-brand-purple/10 dark:bg-zinc-800 text-brand-purple rounded-full text-lg font-bold tracking-wider">
             第 {episode.episodeNumber} 回
           </span>
@@ -79,7 +79,7 @@ export default function EpisodeViewer({ episode }: { episode: EpisodeData }) {
             {episode.guest ? `來賓：${episode.guest}` : '個人回'}
           </span>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center leading-tight">{episode.title}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-3.5 sm:mb-4 text-center leading-tight">{episode.title}</h1>
         
         <div className="w-full max-w-2xl flex items-center justify-center gap-4">
           {/* 左側漸層線條 */}
