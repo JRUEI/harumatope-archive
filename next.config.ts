@@ -1,5 +1,8 @@
 import type { NextConfig } from "next";
 
+const isGithubActions = process.env.GITHUB_ACTIONS || false;
+const repoName = 'harumatope-archive';
+
 const securityHeaders = [
   {
     key: "Content-Security-Policy",
@@ -24,15 +27,25 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  poweredByHeader: false,
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: securityHeaders,
-      },
-    ];
+  output: isGithubActions ? 'export' : undefined,
+  basePath: isGithubActions ? `/${repoName}` : '',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
   },
+  poweredByHeader: false,
+  ...(isGithubActions
+    ? {}
+    : {
+        async headers() {
+          return [
+            {
+              source: "/:path*",
+              headers: securityHeaders,
+            },
+          ];
+        },
+      }),
 };
 
 export default nextConfig;
