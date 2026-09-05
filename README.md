@@ -1,6 +1,6 @@
-# はるまとぺーじ Wiki
+# はるまとぺーじ 檔案庫 (Harumatope Archive)
 
-福嶋晴菜『はるまとぺーじ』的繁體中文節目整理站。內容由 `content/episodes/*.md` 建置為 Next.js 靜態頁面。
+福嶋晴菜『はるまとぺーじ』非公式節目內容檔案庫・全 10 回完整收錄。內容由 `content/episodes/*.md` 建置為 Next.js 靜態頁面，具備 YouTube 雙向影音連動逐字稿與精簡摘要。
 
 ## 本機執行
 
