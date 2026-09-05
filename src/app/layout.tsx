@@ -29,8 +29,8 @@ const notoSans = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
-  title: "はるまとぺーじ Wiki",
-  description: "福嶋晴菜の「はるまとぺーじ」非公式 Wiki",
+  title: "はるまとぺーじ 檔案庫",
+  description: "福嶋晴菜の「はるまとぺーじ」非公式節目內容檔案庫",
 };
 
 export default function RootLayout({

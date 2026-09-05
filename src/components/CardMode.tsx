@@ -38,7 +38,7 @@ interface ExportableCardProps {
 const CARD_STYLES = {
   // Shared
   footer: { fontSize: '24px', fontWeight: 300 as const, color: '#aaa', margin: 0, letterSpacing: '0.03em' },
-  footerDivider: (isDark: boolean) => ({ borderTop: `1px solid ${isDark ? '#444' : '#E5E7EB'}`, paddingTop: '36px' }),
+  footerDivider: (isDark: boolean) => ({ borderTop: `1px solid ${isDark ? '#444' : '#E5E7EB'}`, paddingTop: '32px', flexShrink: 0 as const }),
   serif: (size: number, weight: number, color: string) => ({
     fontFamily: 'var(--font-serif)', fontSize: `${size}px`, fontWeight: weight, color, lineHeight: 1.35 as const, margin: 0,
   }),
@@ -49,18 +49,19 @@ const CARD_STYLES = {
   quoteBlock: (isDark: boolean) => ({
     background: isDark ? '#333' : '#F3F4F6',
     borderLeft: `6px solid ${isDark ? '#c084fc' : '#9333ea'}`,
-    padding: '32px 40px', borderRadius: '0 12px 12px 0', margin: '40px 0',
+    padding: '28px 36px', borderRadius: '0 12px 12px 0', margin: '24px 0',
   }),
   quoteText: (isDark: boolean) => ({
     fontFamily: 'var(--font-serif)', fontSize: '30px', fontWeight: 700 as const,
-    color: isDark ? '#eee' : '#444', lineHeight: 1.7 as const, margin: 0,
+    color: isDark ? '#eee' : '#444', lineHeight: 1.65 as const, margin: 0,
   }),
   // Content card
   contentBody: (isDark: boolean) => ({
-    background: isDark ? '#262626' : '#FFFFFF', borderRadius: '16px', padding: '56px',
-    boxShadow: '0 4px 20px rgba(0,0,0,0.03)', marginBottom: '40px', flex: 1 as const,
+    background: isDark ? '#262626' : '#FFFFFF', borderRadius: '16px', padding: '48px 56px',
+    boxShadow: '0 4px 20px rgba(0,0,0,0.03)', marginBottom: '32px', flex: 1 as const,
+    display: 'flex' as const, flexDirection: 'column' as const, justifyContent: 'flex-start' as const,
   }),
-  paragraph: (color: string) => ({ fontSize: '32px', color, lineHeight: 1.8 as const, marginBottom: '32px' }),
+  paragraph: (color: string) => ({ fontSize: '32px', color, lineHeight: 1.8 as const, marginBottom: '28px' }),
   bigNumber: (isDark: boolean) => ({
     position: 'absolute' as const, top: '140px', right: '60px',
     fontFamily: 'var(--font-serif)', fontSize: '320px', fontWeight: 900 as const,
@@ -77,25 +78,34 @@ const getTagStyle = (isDark: boolean) => {
 };
 
 // --- Auto Pagination ---
-// Estimate ~400 chars per card max
+// Safe vertical height budget for 1080x1920 card (~280 weighted units)
 function paginateCards(cards: EpisodeCard[]) {
   const paginated: PaginatedCard[] = [];
   
   cards.forEach(card => {
     let currentChunk: string[] = [];
-    let currentLength = 0;
-    const maxLen = 350; // Threshold for splitting
+    let currentWeight = 0;
+    const maxWeight = 260; // Strict threshold to prevent content overflowing 1920px
     
     const paragraphs = [...card.content];
 
     paragraphs.forEach(p => {
-      if (currentLength + p.length > maxLen && currentChunk.length > 0) {
+      const isQuote = p.startsWith('QUOTE:') || p.startsWith('>');
+      const isBullet = p.startsWith('* ');
+      // Quotes and bullet points occupy extra vertical line-height, padding and margins
+      const weight = p.length + (isQuote ? 120 : isBullet ? 40 : 0);
+
+      const wouldOverflow = (currentWeight + weight > maxWeight && currentChunk.length > 0) ||
+                            (currentChunk.length >= 3) ||
+                            (currentChunk.length >= 2 && isQuote);
+
+      if (wouldOverflow) {
         paginated.push({ ...card, contentChunk: [...currentChunk], displayTitle: '' });
         currentChunk = [p];
-        currentLength = p.length;
+        currentWeight = weight;
       } else {
         currentChunk.push(p);
-        currentLength += p.length;
+        currentWeight += weight;
       }
     });
 
@@ -344,9 +354,15 @@ export default function CardMode({ episode, isLossless }: { episode: EpisodeData
   useEffect(() => {
     if (isFullscreen) {
       const updateFullScale = () => {
-        const scaleX = window.innerWidth / 1080;
-        const scaleY = window.innerHeight / 1920;
-        setFullScale(Math.min(scaleX, scaleY) * 0.95);
+        // Reserve 32px horizontal padding and 88px vertical padding (for top action bar and margins)
+        const paddingX = 32;
+        const paddingY = 88;
+        const availW = Math.max(200, window.innerWidth - paddingX);
+        const availH = Math.max(300, window.innerHeight - paddingY);
+        
+        const scaleX = availW / 1080;
+        const scaleY = availH / 1920;
+        setFullScale(Math.min(scaleX, scaleY));
       };
       updateFullScale();
       window.addEventListener('resize', updateFullScale);
@@ -469,7 +485,9 @@ export default function CardMode({ episode, isLossless }: { episode: EpisodeData
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight') {
+      if (e.key === 'Escape') {
+        setIsFullscreen(false);
+      } else if (e.key === 'ArrowRight') {
         setCurrentIndex(prev => Math.min(prev + 1, cardsToRender.length - 1));
       } else if (e.key === 'ArrowLeft') {
         setCurrentIndex(prev => Math.max(prev - 1, 0));
@@ -489,41 +507,83 @@ export default function CardMode({ episode, isLossless }: { episode: EpisodeData
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] bg-black/95 flex flex-col justify-center items-center overflow-hidden touch-none"
+            className="fixed inset-0 z-[9999] bg-zinc-950/98 backdrop-blur-2xl flex flex-col justify-center items-center overflow-hidden touch-none select-none"
+            onClick={() => setIsFullscreen(false)}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEndAction}
           >
-            {/* Close Button */}
-            <button 
-              onClick={() => setIsFullscreen(false)}
-              className="absolute top-6 right-6 z-[10000] bg-zinc-800/80 hover:bg-zinc-700 text-white p-3 rounded-full transition-colors"
+            {/* Top Navigation Bar - Cleanly positioned at top, zero collision with card */}
+            <div 
+              className="absolute top-0 inset-x-0 h-16 z-[10000] flex items-center justify-between px-6 pointer-events-none"
+              onClick={(e) => e.stopPropagation()}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
+              {/* Progress counter badge (top-left) */}
+              <div className="pointer-events-auto bg-zinc-900/90 text-zinc-100 text-xs sm:text-sm font-bold px-4 py-1.5 rounded-full border border-zinc-700/60 shadow-lg tracking-wider">
+                {Math.min(currentIndex + 1, cardsToRender.length)} / {cardsToRender.length}
+              </div>
 
-
-            {/* Scaled Container for Fullscreen */}
-            <div className="relative origin-center w-[1080px] h-[1920px] transition-transform duration-300" 
-                 style={{ transform: `scale(${fullScale})` }}
-            >
-               <AnimatePresence mode="wait">
-                 <motion.div
-                   key={currentIndex}
-                   initial={{ opacity: 0, x: 100 }}
-                   animate={{ opacity: 1, x: 0 }}
-                   exit={{ opacity: 0, x: -100 }}
-                   transition={{ duration: 0.2 }}
-                   className="w-full h-full shadow-2xl rounded-[40px] overflow-hidden"
-                 >
-                   <ExportableCard card={currentCard} index={currentIndex} isPreview={true} episode={episode} isDark={isDark} totalCards={cardsToRender.length} />
-                 </motion.div>
-               </AnimatePresence>
+              {/* Close Button (top-right) */}
+              <button 
+                onClick={() => setIsFullscreen(false)}
+                className="pointer-events-auto bg-zinc-900/90 hover:bg-zinc-800 text-white p-2.5 rounded-full transition-all border border-zinc-700/60 shadow-lg hover:scale-105 active:scale-95"
+                title="關閉放大 (ESC)"
+                aria-label="Close fullscreen"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              </button>
             </div>
-            
-            {/* Progress indicator */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[10000] bg-zinc-800/80 text-white px-4 py-1.5 rounded-full font-medium text-sm">
-              {Math.min(currentIndex + 1, cardsToRender.length)} / {cardsToRender.length}
+
+            {/* Desktop Navigation Arrows (Side controls) */}
+            {currentIndex > 0 && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); handlePrev(); }}
+                className="hidden sm:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-[10000] bg-zinc-900/80 hover:bg-zinc-800 text-white p-3.5 rounded-full transition-all border border-zinc-700/60 shadow-xl hover:scale-110 active:scale-95"
+                aria-label="上一張"
+              >
+                <ChevronLeft size={24} />
+              </button>
+            )}
+            {currentIndex < cardsToRender.length - 1 && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); handleNext(); }}
+                className="hidden sm:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-[10000] bg-zinc-900/80 hover:bg-zinc-800 text-white p-3.5 rounded-full transition-all border border-zinc-700/60 shadow-xl hover:scale-110 active:scale-95"
+                aria-label="下一張"
+              >
+                <ChevronRight size={24} />
+              </button>
+            )}
+
+            {/* Scaled Container for Fullscreen - 100% Mathematically Centered */}
+            <div 
+              className="relative rounded-2xl sm:rounded-[36px] overflow-hidden shadow-2xl border border-zinc-800/80 bg-zinc-950 flex-shrink-0"
+              style={{ 
+                width: `${Math.round(1080 * fullScale)}px`, 
+                height: `${Math.round(1920 * fullScale)}px` 
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Tap Left/Right zones for navigation on mobile / touch */}
+              <div className="absolute inset-y-0 left-0 w-1/4 z-30 cursor-w-resize" onClick={(e) => { e.stopPropagation(); handlePrev(); }} />
+              <div className="absolute inset-y-0 right-0 w-1/4 z-30 cursor-e-resize" onClick={(e) => { e.stopPropagation(); handleNext(); }} />
+
+              <div 
+                className="absolute top-0 left-0 origin-top-left w-[1080px] h-[1920px]" 
+                style={{ transform: `scale(${fullScale})` }}
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, x: 60 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -60 }}
+                    transition={{ duration: 0.18 }}
+                    className="w-full h-full"
+                  >
+                    <ExportableCard card={currentCard} index={currentIndex} isPreview={true} episode={episode} isDark={isDark} totalCards={cardsToRender.length} />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
             </div>
           </motion.div>
         )}
@@ -532,10 +592,20 @@ export default function CardMode({ episode, isLossless }: { episode: EpisodeData
       <div className="flex flex-col items-center w-full max-w-lg">
         
         {/* Controls */}
-        <div className="w-full flex justify-center items-center mb-6 px-4">
-          <div className="text-zinc-500 font-medium bg-zinc-100 dark:bg-zinc-900 px-4 py-1.5 rounded-full">
+        <div className="w-full flex justify-between items-center mb-4 px-2">
+          <div className="w-16 sm:w-24"></div>
+          <div className="text-zinc-500 dark:text-zinc-400 font-bold bg-zinc-100 dark:bg-zinc-900 px-4 py-1.5 rounded-full text-xs sm:text-sm border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm tracking-wider">
             {Math.min(currentIndex + 1, cardsToRender.length)} / {cardsToRender.length}
           </div>
+          <button 
+            onClick={() => setIsFullscreen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-full font-bold text-xs transition-all shadow-sm border border-zinc-200/50 dark:border-zinc-800/50 hover:scale-105 active:scale-95"
+            aria-label="放大全螢幕"
+            title="放大全螢幕檢視"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+            <span>放大</span>
+          </button>
         </div>
 
         {/* The viewport container that scales down the 1080x1920 card */}
@@ -546,16 +616,6 @@ export default function CardMode({ episode, isLossless }: { episode: EpisodeData
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEndAction}
         >
-          
-          {/* Fullscreen Toggle Button */}
-          <button 
-            onClick={() => setIsFullscreen(true)}
-            className="absolute top-4 right-4 z-[60] bg-black/40 hover:bg-black/60 p-2.5 rounded-full text-white backdrop-blur-sm transition-all opacity-100"
-            aria-label="Fullscreen"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
-          </button>
-
           {/* Navigation Overlays */}
           <div className="absolute inset-y-0 left-0 w-1/6 z-50 cursor-w-resize" onClick={(e) => { e.stopPropagation(); handlePrev(); }} />
           <div className="absolute inset-y-0 right-0 w-1/6 z-50 cursor-e-resize" onClick={(e) => { e.stopPropagation(); handleNext(); }} />

@@ -33,10 +33,18 @@ export default function Header() {
 
   return (
     <nav className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between relative">
         <Link href="/" className="h-10 text-base md:text-xl font-black tracking-widest flex items-center justify-center px-4 md:px-5 rounded-full bg-brand-purple/10 dark:bg-brand-purple/30 text-brand-purple dark:text-purple-300 hover:bg-brand-purple/20 dark:hover:bg-brand-purple/40 transition-all shadow-sm hover:shadow-md hover:shadow-brand-purple/10 hover:-translate-y-0.5 truncate max-w-[50%]">
           <span className="truncate">はるまとぺーじ</span>
         </Link>
+
+        {/* 中間置中標語 */}
+        <div className="hidden sm:flex items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+          <span className="text-zinc-500 dark:text-zinc-400 text-xs md:text-sm font-medium tracking-wider whitespace-nowrap">
+            非公式節目內容檔案庫・全 10 回收錄
+          </span>
+        </div>
+
         <div className="flex gap-2 md:gap-4 items-center font-medium text-sm">
           <a 
             href="https://www.youtube.com/playlist?list=PLR2DEPLZ9lvFrj9JFZJtRgCSS1gJb3Dvd" 

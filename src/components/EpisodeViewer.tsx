@@ -9,7 +9,7 @@ const CardMode = dynamic(() => import('./CardMode'), {
   ssr: false, 
   loading: () => <div className="w-full h-[500px] flex items-center justify-center text-zinc-500">載入中...</div> 
 });
-import { LayoutGrid, AlignLeft } from 'lucide-react';
+import { LayoutGrid, AlignLeft, Crosshair } from 'lucide-react';
 
 import TranscriptMode from './TranscriptMode';
 
@@ -17,8 +17,58 @@ export default function EpisodeViewer({ episode }: { episode: EpisodeData }) {
   const [viewType, setViewType] = useState<'summary' | 'lossless' | 'transcript'>('summary');
   const [isCardMode, setIsCardMode] = useState(false);
 
+  // 畫面視角定位：底部對齊字幕群底下空白的中間，剛好露出上方影片時間軸（免手動滑動滾輪）
+  const scrollToPlayerStage = () => {
+    const tryScroll = () => {
+      const subtitleEl = document.getElementById('transcript-subtitle-group');
+      const controlsEl = document.getElementById('transcript-controls');
+      const playerEl = document.getElementById('transcript-player-stage');
+
+      if (subtitleEl) {
+        const subtitleRect = subtitleEl.getBoundingClientRect();
+        const subtitleBottom = window.scrollY + subtitleRect.bottom;
+
+        let midBlankY = subtitleBottom + 10;
+        if (controlsEl) {
+          const controlsRect = controlsEl.getBoundingClientRect();
+          const controlsTop = window.scrollY + controlsRect.top;
+          const gap = controlsTop - subtitleBottom;
+          if (gap > 0) {
+            midBlankY = subtitleBottom + gap / 2;
+          }
+        }
+
+        let targetScrollY = midBlankY - window.innerHeight;
+        if (playerEl) {
+          const playerRect = playerEl.getBoundingClientRect();
+          const playerTop = window.scrollY + playerRect.top;
+          const navbarHeight = 64;
+          const minScrollY = playerTop - navbarHeight - 16;
+          if (targetScrollY < minScrollY) {
+            targetScrollY = minScrollY;
+          }
+        }
+
+        window.scrollTo({
+          top: Math.max(0, targetScrollY),
+          behavior: 'smooth',
+        });
+        return true;
+      } else if (playerEl) {
+        playerEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return true;
+      }
+      return false;
+    };
+
+    if (!tryScroll()) {
+      setTimeout(tryScroll, 100);
+      setTimeout(tryScroll, 300);
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
+    <div className="mx-auto py-10 px-4 transition-all duration-300 max-w-4xl">
       {/* Header */}
       <header className="mb-6 flex flex-col items-center w-full">
         <div className="flex flex-wrap justify-center gap-3 mb-5">
@@ -85,30 +135,45 @@ export default function EpisodeViewer({ episode }: { episode: EpisodeData }) {
               段落紀錄
             </button>
             <button
-              onClick={() => setViewType('transcript')}
+              onClick={() => {
+                setViewType('transcript');
+                setTimeout(scrollToPlayerStage, 100);
+              }}
               className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-lg font-bold transition-all text-sm border ${viewType === 'transcript' ? 'bg-[#ebdfff] dark:bg-brand-purple/20 text-brand-purple shadow-sm border-transparent dark:border-brand-purple/20' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'}`}
             >
               逐字稿
             </button>
           </div>
 
-          {/* Mode Toggle */}
-          <div className={`flex w-full sm:w-auto bg-zinc-100 dark:bg-zinc-950 p-1.5 rounded-xl shrink-0 min-w-min ${viewType === 'transcript' ? 'opacity-50 pointer-events-none' : ''}`}>
+          {/* Mode Toggle 或 逐字稿畫面定位按鈕 */}
+          {viewType === 'transcript' ? (
             <button
-              onClick={() => setIsCardMode(true)}
-              className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold transition-all text-sm border ${isCardMode ? 'bg-[#ebdfff] dark:bg-brand-purple/20 text-brand-purple shadow-sm border-transparent dark:border-brand-purple/20' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'}`}
+              type="button"
+              onClick={scrollToPlayerStage}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold rounded-xl text-xs sm:text-sm border border-emerald-200 dark:border-emerald-800/60 transition shadow-sm hover:scale-105 active:scale-95"
+              title="畫面定位：一鍵平滑滾動對齊至播放器與字幕視角（免自己滾動滾輪）"
             >
-              <LayoutGrid size={18} strokeWidth={2.5} className="shrink-0" />
-              <span className="whitespace-nowrap">圖卡</span>
+              <Crosshair size={15} />
+              <span>畫面定位</span>
             </button>
-            <button
-              onClick={() => setIsCardMode(false)}
-              className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold transition-all text-sm border ${!isCardMode ? 'bg-[#ebdfff] dark:bg-brand-purple/20 text-brand-purple shadow-sm border-transparent dark:border-brand-purple/20' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'}`}
-            >
-              <AlignLeft size={18} strokeWidth={2.5} className="shrink-0" />
-              <span className="whitespace-nowrap">文字</span>
-            </button>
-          </div>
+          ) : (
+            <div className="flex w-full sm:w-auto bg-zinc-100 dark:bg-zinc-950 p-1.5 rounded-xl shrink-0 min-w-min">
+              <button
+                onClick={() => setIsCardMode(true)}
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold transition-all text-sm border ${isCardMode ? 'bg-[#ebdfff] dark:bg-brand-purple/20 text-brand-purple shadow-sm border-transparent dark:border-brand-purple/20' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'}`}
+              >
+                <LayoutGrid size={18} strokeWidth={2.5} className="shrink-0" />
+                <span className="whitespace-nowrap">圖卡</span>
+              </button>
+              <button
+                onClick={() => setIsCardMode(false)}
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold transition-all text-sm border ${!isCardMode ? 'bg-[#ebdfff] dark:bg-brand-purple/20 text-brand-purple shadow-sm border-transparent dark:border-brand-purple/20' : 'border-transparent text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'}`}
+              >
+                <AlignLeft size={18} strokeWidth={2.5} className="shrink-0" />
+                <span className="whitespace-nowrap">文字</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

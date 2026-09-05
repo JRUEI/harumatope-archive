@@ -14,9 +14,6 @@ export default function Home() {
             「はるまとぺーじ」
           </span>
         </h1>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm sm:text-base tracking-wide">
-          非公式節目內容紀錄 Wiki・全 {episodes.length} 回收錄
-        </p>
       </div>
 
       {/* Episodes List */}
