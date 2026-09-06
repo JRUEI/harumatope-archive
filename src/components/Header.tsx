@@ -34,7 +34,9 @@ export default function Header() {
 
   return (
     <nav className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-6 h-14 md:h-16 flex items-center justify-between gap-3 relative">
+      {/* 外層比照內文外框，內層再收到 max-w-4xl，讓頁首左右緣對齊集數列表 */}
+      <div className="max-w-6xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto h-14 md:h-16 flex items-center justify-between gap-3 relative">
         {/* 左側：站名標誌，貼齊內文容器左緣 */}
         <Link
           href="/"
@@ -147,6 +149,7 @@ export default function Header() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </nav>
   );
