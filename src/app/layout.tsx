@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Noto_Serif_TC, Noto_Sans_TC } from "next/font/google
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { FocusModeProvider } from "@/components/FocusModeProvider";
 import { HomeLayoutProvider } from "@/components/HomeLayoutProvider";
 
@@ -115,6 +116,7 @@ export default function RootLayout({
               <main className="min-h-screen">
                 {children}
               </main>
+              <Footer />
             </FocusModeProvider>
           </HomeLayoutProvider>
         </ThemeProvider>
