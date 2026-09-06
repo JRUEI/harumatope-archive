@@ -10,7 +10,7 @@ export default function HomeEpisodeList({ episodes }: { episodes: EpisodeListIte
   // The episodes are already sorted from the source
 
   return (
-    <div className="max-w-4xl mx-auto mb-20">
+    <div className="max-w-6xl mx-auto mb-20">
       {/* 列表區塊 */}
       <div className="relative">
         <div className="flex flex-col gap-6 sm:gap-8">

@@ -34,19 +34,21 @@ export default function Header() {
 
   return (
     <nav className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center gap-3 md:gap-5">
-        {/* 左側：站名標誌與標語靠攏成一組 */}
-        <div className="flex items-baseline gap-2 md:gap-4 min-w-0 flex-1">
-          <Link
-            href="/"
-            className="shrink-0 text-lg md:text-2xl font-black tracking-tight whitespace-nowrap transition-opacity hover:opacity-80"
-          >
-            <span className="hidden sm:inline text-zinc-900 dark:text-white">福嶋晴菜の</span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green">
-              「はるまとぺーじ」
-            </span>
-          </Link>
-          <span className="hidden lg:block truncate text-zinc-500 dark:text-zinc-400 text-xs font-medium tracking-wider">
+      <div className="max-w-6xl mx-auto px-6 h-14 md:h-16 flex items-center justify-between gap-3 relative">
+        {/* 左側：站名標誌，貼齊內文容器左緣 */}
+        <Link
+          href="/"
+          className="shrink-0 text-lg md:text-2xl font-black tracking-tight whitespace-nowrap transition-opacity hover:opacity-80"
+        >
+          <span className="hidden sm:inline text-zinc-900 dark:text-white">福嶋晴菜の</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green">
+            「はるまとぺーじ」
+          </span>
+        </Link>
+
+        {/* 中間：說明文字水平＋垂直置中 */}
+        <div className="hidden md:flex items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+          <span className="text-zinc-500 dark:text-zinc-400 text-xs font-medium tracking-wider whitespace-nowrap">
             非公式節目內容檔案庫・全 10 回收錄
           </span>
         </div>
