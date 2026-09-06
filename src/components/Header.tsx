@@ -34,34 +34,39 @@ export default function Header() {
 
   return (
     <nav className="w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between relative">
-        <Link href="/" className="h-10 text-base md:text-xl font-black tracking-widest flex items-center justify-center px-4 md:px-5 rounded-full bg-brand-purple/10 dark:bg-brand-purple/30 text-brand-purple dark:text-purple-300 hover:bg-brand-purple/20 dark:hover:bg-brand-purple/40 transition-all shadow-sm hover:shadow-md hover:shadow-brand-purple/10 hover:-translate-y-0.5 truncate max-w-[50%]">
-          <span className="truncate">はるまとぺーじ</span>
-        </Link>
-
-        {/* 中間置中標語 */}
-        <div className="hidden sm:flex items-center justify-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-          <span className="text-zinc-500 dark:text-zinc-400 text-xs md:text-sm font-medium tracking-wider whitespace-nowrap">
+      <div className="max-w-6xl mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center gap-3 md:gap-5">
+        {/* 左側：站名標誌與標語靠攏成一組 */}
+        <div className="flex items-baseline gap-2 md:gap-4 min-w-0 flex-1">
+          <Link
+            href="/"
+            className="shrink-0 text-lg md:text-2xl font-black tracking-tight whitespace-nowrap transition-opacity hover:opacity-80"
+          >
+            <span className="hidden sm:inline text-zinc-900 dark:text-white">福嶋晴菜の</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-purple to-brand-green">
+              「はるまとぺーじ」
+            </span>
+          </Link>
+          <span className="hidden lg:block truncate text-zinc-500 dark:text-zinc-400 text-xs font-medium tracking-wider">
             非公式節目內容檔案庫・全 10 回收錄
           </span>
         </div>
 
-        <div className="flex gap-2 md:gap-4 items-center font-medium text-sm">
+        <div className="flex gap-1.5 md:gap-2 items-center shrink-0 font-medium text-sm">
           <a 
             href="https://www.youtube.com/playlist?list=PLR2DEPLZ9lvFrj9JFZJtRgCSS1gJb3Dvd" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="h-10 inline-flex items-center justify-center gap-1.5 px-3 md:px-5 bg-red-100 text-red-800 dark:bg-red-500/30 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-500/40 rounded-full font-bold transition-all shadow-sm hover:shadow-md hover:shadow-red-500/10 hover:-translate-y-0.5"
+            className="w-9 h-9 md:w-10 md:h-10 shrink-0 inline-flex items-center justify-center bg-red-100 text-red-800 dark:bg-red-500/30 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-500/40 rounded-full transition-all shadow-sm hover:shadow-md hover:shadow-red-500/10 hover:-translate-y-0.5"
             title="YouTube 播放清單"
+            aria-label="YouTube 播放清單"
           >
-            <PlayCircle size={16} className="shrink-0" />
-            <span className="tracking-wide hidden sm:inline">影片清單</span>
+            <PlayCircle size={18} className="shrink-0" />
           </a>
           <a
             href="https://x.com/voradi_official"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-10 h-10 shrink-0 inline-flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
+            className="w-9 h-9 md:w-10 md:h-10 shrink-0 inline-flex items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5"
             title="官方 X (@voradi_official)"
             aria-label="官方 X (@voradi_official)"
           >
@@ -71,11 +76,11 @@ export default function Header() {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`w-10 h-10 flex items-center justify-center rounded-full transition-all shadow-sm focus:outline-none hover:-translate-y-0.5 hover:shadow-md ${isOpen ? 'bg-brand-purple text-white shadow-brand-purple/20' : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-brand-purple dark:hover:text-brand-purple hover:bg-brand-purple/10 dark:hover:bg-brand-purple/20'}`}
+                className={`w-9 h-9 md:w-10 md:h-10 flex items-center justify-center rounded-full transition-all shadow-sm focus:outline-none hover:-translate-y-0.5 hover:shadow-md ${isOpen ? 'bg-brand-purple text-white shadow-brand-purple/20' : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-brand-purple dark:hover:text-brand-purple hover:bg-brand-purple/10 dark:hover:bg-brand-purple/20'}`}
                 title="設定"
                 aria-label="Toggle Settings"
               >
-                <Settings size={20} className={isOpen ? "animate-spin-slow" : ""} />
+                <Settings size={18} className={isOpen ? "animate-spin-slow" : ""} />
               </button>
               
               {/* Dropdown Menu */}
